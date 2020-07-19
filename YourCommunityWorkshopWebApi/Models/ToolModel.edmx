@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ToolRentalModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
+          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
+          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerName" Type="nvarchar(max)" />
+          <Property Name="CustomerPhone" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="RentalId" />
+          </Key>
+          <Property Name="RentalId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="DateRented" Type="datetime" Nullable="false" />
+          <Property Name="DateReturn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="RentalTool">
+          <Key>
+            <PropertyRef Name="RentalToolId" />
+          </Key>
+          <Property Name="RentalToolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RentalId" Type="int" Nullable="false" />
+          <Property Name="ToolId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tool">
+          <Key>
+            <PropertyRef Name="ToolId" />
+          </Key>
+          <Property Name="ToolId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ToolName" Type="nvarchar(max)" />
+          <Property Name="BrandName" Type="nvarchar(max)" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Availability" Type="bit" Nullable="false" />
+          <Property Name="ToolCondition" Type="nvarchar(max)" />
+        </EntityType>
+        <Association Name="FK_dbo_RentalTool_dbo_Rental_RentalId">
+          <End Role="Rental" Type="Self.Rental" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RentalTool" Type="Self.RentalTool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rental">
+              <PropertyRef Name="RentalId" />
+            </Principal>
+            <Dependent Role="RentalTool">
+              <PropertyRef Name="RentalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ToolRentalModelStoreContainer">
+          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Customer" EntityType="Self.Customer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rental" EntityType="Self.Rental" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RentalTool" EntityType="Self.RentalTool" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tool" EntityType="Self.Tool" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_RentalTool_dbo_Rental_RentalId" Association="Self.FK_dbo_RentalTool_dbo_Rental_RentalId">
+            <End Role="Rental" EntitySet="Rental" />
+            <End Role="RentalTool" EntitySet="RentalTool" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ToolRentalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="C__MigrationHistory">
+          <Key>
+            <PropertyRef Name="MigrationId" />
+            <PropertyRef Name="ContextKey" />
+          </Key>
+          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
+          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="CustomerId" />
+          </Key>
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerPhone" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Rental">
+          <Key>
+            <PropertyRef Name="RentalId" />
+          </Key>
+          <Property Name="RentalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="DateRented" Type="DateTime" Nullable="false" />
+          <Property Name="DateReturn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="RentalTools" Relationship="Self.FK_dbo_RentalTool_dbo_Rental_RentalId" FromRole="Rental" ToRole="RentalTool" />
+        </EntityType>
+        <EntityType Name="RentalTool">
+          <Key>
+            <PropertyRef Name="RentalToolId" />
+          </Key>
+          <Property Name="RentalToolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RentalId" Type="Int32" Nullable="false" />
+          <Property Name="ToolId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Rental" Relationship="Self.FK_dbo_RentalTool_dbo_Rental_RentalId" FromRole="RentalTool" ToRole="Rental" />
+        </EntityType>
+        <EntityType Name="Tool">
+          <Key>
+            <PropertyRef Name="ToolId" />
+          </Key>
+          <Property Name="ToolId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ToolName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BrandName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Availability" Type="Boolean" Nullable="false" />
+          <Property Name="ToolCondition" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <Association Name="FK_dbo_RentalTool_dbo_Rental_RentalId">
+          <End Role="Rental" Type="Self.Rental" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RentalTool" Type="Self.RentalTool" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rental">
+              <PropertyRef Name="RentalId" />
+            </Principal>
+            <Dependent Role="RentalTool">
+              <PropertyRef Name="RentalId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ToolRentalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="Rentals" EntityType="Self.Rental" />
+          <EntitySet Name="RentalTools" EntityType="Self.RentalTool" />
+          <EntitySet Name="Tools" EntityType="Self.Tool" />
+          <AssociationSet Name="FK_dbo_RentalTool_dbo_Rental_RentalId" Association="Self.FK_dbo_RentalTool_dbo_Rental_RentalId">
+            <End Role="Rental" EntitySet="Rentals" />
+            <End Role="RentalTool" EntitySet="RentalTools" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ToolRentalModelStoreContainer" CdmEntityContainer="ToolRentalEntities">
+          <EntitySetMapping Name="C__MigrationHistory">
+            <EntityTypeMapping TypeName="ToolRentalModel.C__MigrationHistory">
+              <MappingFragment StoreEntitySet="__MigrationHistory">
+                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
+                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
+                <ScalarProperty Name="Model" ColumnName="Model" />
+                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="ToolRentalModel.Customer">
+              <MappingFragment StoreEntitySet="Customer">
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
+                <ScalarProperty Name="CustomerPhone" ColumnName="CustomerPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rentals">
+            <EntityTypeMapping TypeName="ToolRentalModel.Rental">
+              <MappingFragment StoreEntitySet="Rental">
+                <ScalarProperty Name="RentalId" ColumnName="RentalId" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="DateRented" ColumnName="DateRented" />
+                <ScalarProperty Name="DateReturn" ColumnName="DateReturn" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentalTools">
+            <EntityTypeMapping TypeName="ToolRentalModel.RentalTool">
+              <MappingFragment StoreEntitySet="RentalTool">
+                <ScalarProperty Name="RentalToolId" ColumnName="RentalToolId" />
+                <ScalarProperty Name="RentalId" ColumnName="RentalId" />
+                <ScalarProperty Name="ToolId" ColumnName="ToolId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tools">
+            <EntityTypeMapping TypeName="ToolRentalModel.Tool">
+              <MappingFragment StoreEntitySet="Tool">
+                <ScalarProperty Name="ToolId" ColumnName="ToolId" />
+                <ScalarProperty Name="ToolName" ColumnName="ToolName" />
+                <ScalarProperty Name="BrandName" ColumnName="BrandName" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Availability" ColumnName="Availability" />
+                <ScalarProperty Name="ToolCondition" ColumnName="ToolCondition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
